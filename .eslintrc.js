@@ -28,13 +28,16 @@ module.exports = {
         ],
         "semi": [
             "warn",
-            "always"
+            "never"
         ],
         "no-unused-vars": [
             "warn"
         ],
         "no-console": [
             "warn"
+        ],
+        "no-restricted-syntax": [
+            "off"
         ],
         'array-bracket-spacing': ['error', 'never']
     }

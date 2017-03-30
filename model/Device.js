@@ -1,35 +1,35 @@
-const moment = require('moment');
-const dns = require('dns');
+const moment = require('moment')
+const dns = require('dns')
 
 module.exports = class Device {
-  constructor({ ip, mac, vendor }) {
-    this.lastSeen = moment();
-    this.ip = ip;
-    this.mac = mac;
-    this.vendor = vendor;
-    this.hostnames = [];
+  constructor({ ip, mac, vendor, hostnames }) {
+    this.firstSeen = moment()
+    this.lastSeen = this.firstSeen
+    this.ip = ip
+    this.mac = mac
+    this.vendor = vendor
+    this.hostnames = hostnames
+  }
+
+  setVendor(vendor) {
+    this.vendor = vendor
   }
 
   iHaveSeenYou() {
-    this.lastSeen = moment();
+    this.lastSeen = moment()
   }
 
-  get() {
-    return new Promise((resolve, reject) => {
-      dns.reverse(this.ip, (err, name) => {
-        if (err) {
-          return reject(err);
+  static fetchHostName(ip) {
+    return new Promise((resolve) => {
+      dns.reverse(ip, (err, name) => {
+        if (!err) {
+          return resolve(name)
         }
-
-        return resolve(name);
-      });
+        return resolve(null)
+      })
     })
-    .then(names => names)
-    .catch(err => err);
+    .catch(() => {
+      // Discard error
+    })
   }
-
-  async fetchHostName() {
-    const b = await this.get();
-    return b;
-  }
-};
+}

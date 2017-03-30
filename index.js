@@ -1,13 +1,27 @@
-const DeviceList = require('./model/DeviceList');
-const NetworkDiscovery = require('./NetworkDiscovery');
+const axios = require('axios')
+const DeviceList = require('./model/DeviceList')
+const NetworkDiscovery = require('./NetworkDiscovery')
+const config = require('./config')
 
-const deviceList = new DeviceList();
+const deviceList = new DeviceList()
 
-const networkDiscovery = new NetworkDiscovery();
 async function discover() {
-  const deviceArray = await networkDiscovery.discover();
-  deviceList.detectDevice(deviceArray);
-  console.log(JSON.stringify(deviceArray));
+  return new Promise(async () => {
+    const deviceArray = await NetworkDiscovery.discover()
+    deviceList.detectedDevices(deviceArray)
+    deviceList.removeGoneDevices(config.deviceIsGoneAfterSeconds * 1000)
+
+    console.log(`Devices: ${deviceList.length}`)
+    setTimeout(discover, config.updateInterval * 1000)
+  }).catch((err) => {
+    throw err
+  })
 }
 
-discover();
+function push() {
+  axios.post(config.reportUrl, deviceList.devices)
+  setTimeout(push, config.pushInterval * 1000)
+}
+
+discover()
+push()
