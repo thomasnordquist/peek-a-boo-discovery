@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "arpscan": "^0.5.0",
+    "mac-lookup": "^0.1.7",
+    "moment": "^2.18.1"
+  }
+}
