@@ -4,7 +4,8 @@ module.exports = {
         "es6": true,
         "commonjs": true
     },
-    "extends": "eslint:recommended",
+    "extends": "airbnb",
+    //"extends": "eslint:recommended",
     "parserOptions": {
         "sourceType": "module",
         "ecmaVersion": 8 // or 2017
@@ -34,6 +35,7 @@ module.exports = {
         ],
         "no-console": [
             "warn"
-        ]
+        ],
+        'array-bracket-spacing': ['error', 'never']
     }
 };

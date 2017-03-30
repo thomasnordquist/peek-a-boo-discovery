@@ -8,8 +8,8 @@ module.exports = class DeviceList {
   }
 
   detectDevice(discoveredDevice) {
-    let mac = discoveredDevice.mac;
-    if(!this.devices[mac]) {
+    const mac = discoveredDevice.mac;
+    if (!this.devices[mac]) {
       this.addDevice(discoveredDevice);
     } else {
       this.devices[mac].iHaveSeenYou();
@@ -17,7 +17,6 @@ module.exports = class DeviceList {
   }
 
   detectedDevices(devices) {
-    console.log(devices);
     devices.forEach(d => this.detectDevice(d));
   }
 };
