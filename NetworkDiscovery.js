@@ -1,3 +1,4 @@
+const config = require('./config')
 const arpscanner = require('arpscan/promise')
 const mac = require('mac-lookup')
 const Device = require('./model/Device')
@@ -17,7 +18,7 @@ module.exports = class NetworkDiscovery {
     return arpscanner({
       command: 'arp-scan',
       args: ['-l'],
-      interface: 'en0',
+      interface: config.interface,
       sudo: false,
     }).then(async (result) => {
       const data = await Promise.all(result.map(async (r) => {
