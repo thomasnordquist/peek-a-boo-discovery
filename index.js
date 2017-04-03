@@ -20,6 +20,8 @@ async function discover() {
 
 function push() {
   axios.post(config.reportUrl, Object.values(deviceList.devices))
+    .catch(discard => console.error(discard))
+
   setTimeout(push, config.pushInterval * 1000)
 }
 
